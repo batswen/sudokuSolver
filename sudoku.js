@@ -8,9 +8,19 @@
 */
 
 class Sudoku {
+    /**
+    * @constructor
+    * @author: Swen Rühl
+    * @param (array of array of number) The sudoku to solve
+    */
     constructor(sudoku) {
         this.sudoku = sudoku
+        this.solutions = []
     }
+    /**
+    * Solves the given Sudoku
+    *
+    */
     solve() {
         let x, y, n
         for (y = 0; y < 9; y++) {
@@ -27,8 +37,23 @@ class Sudoku {
                 }
             }
         }
-        console.log(this.sudoku)
+        this.solutions.push(JSON.parse(JSON.stringify(this.sudoku))) // There must be a better way
     }
+    show() {
+        if (this.solutions.length) {
+            for (let s of this.solutions) {
+                console.log(s)
+                console.log()
+            }
+        }
+    }
+    /**
+    * Is that move possible
+    *
+    * @param x (number) The x position to check (0-8)
+    * @param y (number) The y position to check (0-8)
+    * @param n (number) The number to check (1-9)
+    */
     testMove(x, y, n) {
         let i, j, xs, ys
         for (i = 0; i < 9; i++) {
@@ -65,10 +90,25 @@ var grid = [
     [0,0,0,4,1,9,0,0,5],
     [0,0,0,0,0,0,0,7,0]
 ]
-var sudoku = new Sudoku(grid)
+
+grid = [
+    [9,0,6,0,7,0,4,0,3],
+    [0,0,0,4,0,0,2,0,0],
+    [0,7,0,0,2,3,0,1,0],
+    [5,0,0,0,6,0,1,0,0],
+    [0,4,0,2,0,8,0,6,0],
+    [0,0,3,0,0,0,0,0,5],
+    [0,3,0,7,0,0,0,5,0],
+    [0,0,7,0,0,5,0,0,0],
+    [4,0,5,0,1,0,7,0,8]
+]
+const sudoku = new Sudoku(grid)
+/*
+// Tests for the first grid
 console.assert(sudoku.testMove(0,0,3) === false, "0,0,3")
 console.assert(sudoku.testMove(4,4,5) === true, "4,4,5")
 console.assert(sudoku.testMove(8,8,8) === false, "8,8,8")
 console.assert(sudoku.testMove(0,0,5) === true, "0,0,5")
-
+*/
 sudoku.solve()
+sudoku.show()
